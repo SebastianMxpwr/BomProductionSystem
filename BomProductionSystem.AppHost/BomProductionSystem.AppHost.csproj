@@ -1,0 +1,15 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>bc7d4d72-adc8-4c48-adb6-942b02e64ec8</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BomProduction.QueryService\BomProduction.QueryService.csproj" />
+  </ItemGroup>
+
+</Project>

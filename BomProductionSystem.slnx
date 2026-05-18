@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="BomProduction.EngineService/BomProduction.EngineService.csproj" />
+  <Project Path="BomProduction.Gateway/BomProduction.Gateway.csproj" />
+  <Project Path="BomProduction.QueryService/BomProduction.QueryService.csproj" />
+  <Project Path="BomProduction.Shared/BomProduction.Shared.csproj" />
+  <Project Path="BomProductionSystem.AppHost/BomProductionSystem.AppHost.csproj" />
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>

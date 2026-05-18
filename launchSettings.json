@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "bomproduction.queryservice": "StartDebugging",
+        "bomproduction.engineservice": "StartDebugging",
+        "bomproduction.gateway": "StartDebugging"
+      }
+    }
+  }
+}

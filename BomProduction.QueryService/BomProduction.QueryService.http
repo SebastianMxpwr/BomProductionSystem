@@ -1,0 +1,11 @@
+@BomProduction.QueryService_HostAddress = http://localhost:5023
+
+GET {{BomProduction.QueryService_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{BomProduction.QueryService_HostAddress}}/todos/1
+Accept: application/json
+
+###

@@ -1,0 +1,20 @@
+services:
+  bomproduction.queryservice:
+    image: ${DOCKER_REGISTRY-}bomproductionqueryservice
+    build:
+      context: .
+      dockerfile: BomProduction.QueryService/Dockerfile
+
+  bomproduction.engineservice:
+    image: ${DOCKER_REGISTRY-}bomproductionengineservice
+    build:
+      context: .
+      dockerfile: BomProduction.EngineService/Dockerfile
+
+
+  bomproduction.gateway:
+    image: ${DOCKER_REGISTRY-}bomproductiongateway
+    build:
+      context: .
+      dockerfile: BomProduction.Gateway/Dockerfile
+
