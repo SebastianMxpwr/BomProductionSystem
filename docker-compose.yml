@@ -1,20 +1,69 @@
 services:
+  # 1. Tu Base de Datos (Para que todo viva en el mismo entorno)
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: bom_db_server # <--- AQUÍ
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Mexicanpower56
+    ports:
+      - "14330:1433"
+    networks:
+      - bom-network
+
+  # 2. El Servicio de Consultas Rápidas
   bomproduction.queryservice:
     image: ${DOCKER_REGISTRY-}bomproductionqueryservice
+    container_name: bom_query_api # <--- AQUÍ
     build:
       context: .
       dockerfile: BomProduction.QueryService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=BOM;User Id=sa;Password=Mexicanpower56;TrustServerCertificate=True;
+    ports:
+      - "5002:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - bom-network
 
+  # 3. El Motor de Explosionado
   bomproduction.engineservice:
     image: ${DOCKER_REGISTRY-}bomproductionengineservice
+    container_name: bom_engine_api # <--- AQUÍ
     build:
       context: .
       dockerfile: BomProduction.EngineService/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Inyectamos la cadena de conexión directo aquí, apuntando al contenedor "sqlserver"
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=BOM;User Id=sa;Password=Mexicanpower56;TrustServerCertificate=True;
+    ports:
+      - "5001:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - bom-network
 
-
+  # 4. El Gateway (El cadenero del antro)
   bomproduction.gateway:
     image: ${DOCKER_REGISTRY-}bomproductiongateway
+    container_name: bom_gateway_api # <--- AQUÍ
     build:
       context: .
       dockerfile: BomProduction.Gateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:8080" # Angular (Front) SOLO le va a pegar a este puerto
+    depends_on:
+      - bomproduction.engineservice
+      - bomproduction.queryservice
+    networks:
+      - bom-network
 
+# Creamos una red privada para que los contenedores hablen entre ellos por su nombre
+networks:
+  bom-network:
+    driver: bridge
