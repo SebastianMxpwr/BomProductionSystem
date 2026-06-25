@@ -102,6 +102,19 @@ app.MapPost("/api/auth/login", async (LoginRequest request, IConfiguration confi
     });
 });
 
+app.MapGet("/api/query/products", async (IConfiguration config) =>
+{
+    using var db = new SqlConnection(config.GetConnectionString("DefaultConnection"));
+
+    // Traemos todos los productos maestros (Sillas, patas, etc.)
+    var query = "SELECT Id, SKU, Name, Category, Unit, Stock FROM Products";
+
+    var products = await db.QueryAsync<Product>(query);
+
+    return Results.Ok(products.ToList());
+})
+.RequireAuthorization();
+
 
 //-------------------------------------------------------------
 // Fin de area de endpoints

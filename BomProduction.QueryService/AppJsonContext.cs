@@ -8,6 +8,7 @@ namespace BomProduction.QueryService;
 [JsonSerializable(typeof(User))]
 [JsonSerializable(typeof(string[]))]
 [JsonSerializable(typeof(List<string>))]
+[JsonSerializable(typeof(List<Product>))]
 public partial class AppJsonContext : JsonSerializerContext
 {
 }
